@@ -24,7 +24,7 @@ plists=(
 # prepare substitution commands
 echo Mac OS X System Font Substitutions:
 vimcmds=()
-rules=$(sed -n <"$0" '/^####*$/,/^####*$/ { /^## / s/^## //p }')
+rules=$(sed -n <"$0" '/^####*$/,/^####*$/ { /^## / s/^## //p; }')
 while read rule; do
     patt=${rule%%=*}
     repl=${rule#$patt=}
