@@ -5,10 +5,10 @@
 
 # Specify substitutions between these two lines of hashes:
 ###############################################################################
-URL=http://ftp.ktug.or.kr/KTUG/hcr-lvt/Hamchorom-LVT.zip
-LocalPath=~/.fonts/HCR/Hamchorom-LVT.zip
-## AppleGothic=HCR Dotum LVT
-## AppleMyungjo=HCR Batang LVT
+URL=http://j.mp/oYUqdu
+LocalPath=~/.fonts/HCR/Hamchorom-LVT.20101002.zip
+## AppleGothic=HCR Dotum
+## AppleMyungjo=HCR Batang
 ###############################################################################
 # No need to modify below this line, unless you know what you're doing.
 
@@ -22,13 +22,17 @@ plists=(
 )
 
 # prepare substitution commands
-echo Mac OS X System Font Substitutions:
+echo ----------------------------------
+echo Mac OS X System Font Substitutions
+echo ----------------------------------
+echo " Download fonts from $URL"
+echo " Keep archive at $LocalPath"
 vimcmds=()
 rules=$(sed -n <"$0" '/^####*$/,/^####*$/ { /^## / s/^## //p; }')
 while read rule; do
     patt=${rule%%=*}
     repl=${rule#$patt=}
-    echo -e " Use \`$repl'\t instead of \`$patt'."
+    echo " Use \`$repl' instead of \`$patt'."
     vimcmds+=("+%s/$patt/$repl/g")
 done <<<"$rules"
 echo
@@ -48,7 +52,7 @@ case $REPLY in
         mkdir -p "$LocalDir"
         cd "$LocalDir"
         echo Downloading fonts from $URL...
-        curl -R -C - -o "$LocalName" "$URL" || true
+        curl -LR -C - -o "$LocalName" "$URL" || true
         unzip -o "$LocalName"
         echo Installing fonts to /System/Library/Fonts/...
         find . -name '*.tt[fc]' -exec sudo install -vm a=r {} /System/Library/Fonts/ \; -exec rm -f {} \;
