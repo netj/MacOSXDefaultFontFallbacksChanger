@@ -6,10 +6,10 @@
 
 # Specify sets of substitutions between these two lines of hashes:
 ### H: 함초롬 고딕 & 바탕 #####################################################
-## Download fonts from http://j.mp/oYUqdu
-## Keep zip archive at ~/.fonts/HCR/Hamchorom-LVT.20101002.zip
-## Change font AppleGothic=HCR Dotum
-## Change font AppleMyungjo=HCR Batang
+## Download fonts from http://ftp.ktug.or.kr/KTUG/hcr-lvt/Hamchorom-LVT.zip
+## Keep zip archive at ~/.fonts/HCR/Hamchorom-LVT.zip
+## Change font AppleGothic=HCR Dotum LVT
+## Change font AppleMyungjo=HCR Batang LVT
 ###############################################################################
 ### N: 나눔 고딕 & 명조 #######################################################
 ## Change font AppleGothic=Nanum Gothic
