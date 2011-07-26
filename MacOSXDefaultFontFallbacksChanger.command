@@ -143,7 +143,16 @@ interact() {
                 mkdir -p "$LocalDir"
                 cd "$LocalDir"
                 echo Downloading fonts from $URL...
-                curl -LR -C - -o "$LocalName" "$URL" || true
+                completeFlag="$LocalName.complete"
+                if [ -e "$completeFlag" ]; then
+                    # avoid downloading twice if we have a complete one
+                    rm -f "$completeFlag"
+                    curl -L -Rz "$LocalName" -o "$LocalName" "$URL" || curl -L -R -o "$LocalName" "$URL"
+                else
+                    # otherwise, try resuming the previous one
+                    curl -L -R -C - -o "$LocalName" "$URL" || curl -L -R -o "$LocalName" "$URL"
+                fi
+                touch "$completeFlag"
                 unzip -o "$LocalName"
                 echo Installing fonts to /System/Library/Fonts/...
                 find . -name '*.[ot]t[fc]' -exec sudo install -vm a=r {} /System/Library/Fonts/ \; -exec rm -f {} \;
