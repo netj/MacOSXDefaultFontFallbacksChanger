@@ -12,8 +12,8 @@
 ## Change font AppleMyungjo=HCR Batang LVT
 ###############################################################################
 ### N: 나눔 고딕 & 명조 #######################################################
-## Change font AppleGothic=Nanum Gothic
-## Change font AppleMyungjo=Nanum Myeongjo
+## Change font AppleGothic=NanumGothic
+## Change font AppleMyungjo=NanumMyeongjo
 ###############################################################################
 # No need to modify below this line, unless you know what you're doing.
 
