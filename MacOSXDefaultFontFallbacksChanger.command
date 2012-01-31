@@ -5,7 +5,7 @@
 # Version: 1.0
 
 # Specify sets of substitutions between these two lines of hashes:
-### H: 함초롬 고딕 & 바탕 #####################################################
+### H: 함초롬 돋움 & 바탕 #####################################################
 ## Download fonts from http://ftp.ktug.or.kr/KTUG/hcr-lvt/Hamchorom-LVT.zip
 ## Keep zip archive at ~/.fonts/HCR/Hamchorom-LVT.zip
 ## Change font AppleGothic=HCR Dotum LVT
