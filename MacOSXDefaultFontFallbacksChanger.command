@@ -2,24 +2,60 @@
 # A script for changing Mac OS X's default fonts
 # Author: Jaeho Shin <netj@sparcs.org>
 # Created: 2011-07-22
-# Version: 1.1
+
+### MacOSXDefaultFontFallbacksChanger #########################################
+## Mac OS X 기본 글꼴 설정 변경 도구 – 1.1 (2012-02)
+##                    http://netj.github.com/MacOSXDefaultFontFallbacksChanger
+###############################################################################
 
 # Specify sets of substitutions between these two lines of hashes:
-### H: 함초롬 돋움 & 바탕 #####################################################
+
+### H: 함초롬 돋움 & 바탕 (한컴) ##############################################
+# Home: http://faq.ktug.or.kr/faq/%C7%D4%C3%CA%B7%D2%C3%BC/GSUB
+# Home: http://www.haansoft.com/hnc/event/ham/index.htm
 ## Download fonts from http://ftp.ktug.or.kr/KTUG/hcr-lvt/Hamchorom-LVT.zip
 ## Keep zip archive at ~/.fonts/HCR/Hamchorom-LVT.zip
 ## Change font AppleGothic=HCR Dotum LVT
 ## Change font AppleMyungjo=HCR Batang LVT
 ###############################################################################
-### N: 나눔 고딕 & 명조 #######################################################
+
+### N: 나눔 고딕 & 명조 (네이버) ##############################################
+# Home: http://hangeul.naver.com/font
 ## Change font AppleGothic=Nanum Gothic
 ## Change font AppleMyungjo=Nanum Myeongjo
 ###############################################################################
+
+### M: Finder에선 불완전한 뫼비우스 (SK Telecom) ##############################
+# Home: http://www.tworld.co.kr/outsitens.jsp
+## Download fonts from http://www.tworld.co.kr/html/t/download/Moebius_Regular_kor.zip
+## Keep zip archive at ~/.fonts/Moebius/Moebius_Regular_kor.zip
+## Change font AppleGothic=Moebius Korea
+# Download fonts from http://www.tworld.co.kr/html/t/download/Moebius_Bold_kor.zip
+# Keep zip archive at ~/.fonts/Moebius/Moebius_Bold_kor.zip
+# Change font AppleGothic=Moebius Korea Bold
+###############################################################################
+
+### S: Finder에선 불완전한 서울남산체 & 한강체 (서울서체) #####################
+# Home: http://design.seoul.go.kr/dscontent/designseoul.php?MenuID=490&pgID=237
+## Download fonts from http://design.seoul.go.kr/js/boardFileDown.php?model=PolicyData&id=251&field_path=file_path&field_name=file_name1&no=1&is_crypt=false
+## Keep zip archive at ~/.fonts/SeoulFonts/SeoulFonts_TTF.zip
+## Change font AppleGothic=SeoulNamsan
+## Change font AppleMyungjo=SeoulHangang
+###############################################################################
+
+### A: Finder에선 불완전한 아리따 돋움 (아모레퍼시픽) #########################
+# Home: http://www.amorepacific.com/about/about_font.jsp
+## Download fonts from http://www.amorepacific.com/resources/download/about/font/arita_ttf.zip
+## Keep zip archive at ~/.fonts/Arita/arita_ttf.zip
+## Change font AppleGothic=Arita\-dotum(TTF)\-SemiBold
+###############################################################################
+
 # No need to modify below this line, unless you know what you're doing.
 
 set -eu
 # sanitize environment
 PATH=/usr/bin:/bin
+CDPATH=
 clear
 
 # some vocabularies
@@ -27,6 +63,9 @@ error() { echo "$@" >&2; }
 pause() { read -t${1:-5} || true; }
 hr() { echo -------------------------------------------------------------------------------; }
 indent() { sed '/^-/! s/^/  /'; }
+show-header() {
+    sed -ne '/^### MacOSXDefaultFontFallbacksChanger ####*$/,/^####*$/ { /^## / s/^## //p; }' <"$0"
+}
 ProductName=$(sw_vers -productName)
 ProductVersion=$(sw_vers -productVersion)
 show-warning() {
@@ -64,7 +103,7 @@ compile-fontset() {
     while read line; do
         case $line in
             "Download fonts from "*)
-                echo "URL=${line#Download fonts from }"
+                echo "URL='${line#Download fonts from }'"
                 ;;
             "Keep zip archive at "*)
                 echo "LocalPath=${line#Keep zip archive at }"
@@ -94,7 +133,6 @@ Plists=(
 /System/Library/Frameworks/AppKit.framework/Versions/Current/Resources/RTFFontFamilyMappings.plist
 )
 # version of this script
-Version=$(sed -ne '/^# Version: / s/^[^:]*: //p' <"$0")
 
 # check compatibility with current Mac OS X version
 IsCompatible=false
@@ -113,13 +151,13 @@ interact() {
     # listen to user for what to do
     {
         hr
-        echo  Mac OS X 기본 글꼴 설정 변경 도구 / Default Font Fallbacks Changer $Version
+        show-header
         hr
         $IsCompatible || show-warning
         list-fontsets
         hr
-        echo  R: 원상복구 / Reset to Original settings
-        echo  Q: 종료     / Quit
+        echo  "R: 원상복구 / Reset to Original settings"
+        echo  "Q: 종료     / Quit                      "
         hr
     } | indent
     read -n1 -p "키를 누르세요 / Press key: " key
@@ -138,8 +176,8 @@ interact() {
                     sudo cp -pfv "$plist.orig" "$plist"
                 fi
             done
-            echo 원래 설정을 쓰려면 재시동하거나 응용프로그램을 다시 띄웁니다.
-            echo 경고: /System/Library/Fonts/ 아래에 일부 파일이 남아있을 수 있습니다.
+            echo 원래 설정을 적용하려면 재시동하거나 응용프로그램을 다시 띄웁니다.
+            echo 경고: /System/Library/Fonts/ 아래에는 일부 파일이 남아있을 수 있습니다.
             echo Now reboot or restart your apps to use the Original settings.
             echo Warning: You may need to remove files from /System/Library/Fonts/ by hand.
             pause
@@ -180,15 +218,20 @@ interact() {
                 if [ -e "$completeFlag" ]; then
                     # avoid downloading twice if we have a complete one
                     rm -f "$completeFlag"
-                    curl -L -Rz "$LocalName" -o "$LocalName" "$URL" || curl -L -R -o "$LocalName" "$URL"
+                    curl -#LRkz "$LocalName" -o "$LocalName" "$URL" || curl -#LRko "$LocalName" "$URL"
                 else
                     # otherwise, try resuming the previous one
-                    curl -L -R -C - -o "$LocalName" "$URL" || curl -L -R -o "$LocalName" "$URL"
+                    curl -#LRC - -o "$LocalName" "$URL" || curl -#LRko "$LocalName" "$URL"
                 fi
                 touch "$completeFlag"
-                unzip -o "$LocalName"
+                tmp=tmp
+                ditto -x -k "$LocalName" $tmp || true
                 echo 글꼴 설치 중 / Installing fonts to /System/Library/Fonts/...
-                find . -name '*.[ot]t[fc]' -exec sudo install -vm a=r {} /System/Library/Fonts/ \; -exec rm -f {} \;
+                (
+                cd $tmp
+                find . -name '*.[ot]t[fc]' -exec sudo install -vm a=r {} /System/Library/Fonts \;
+                )
+                rm -rf $tmp
                 )
             fi
             # modify plist files
