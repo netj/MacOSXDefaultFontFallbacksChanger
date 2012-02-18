@@ -15,6 +15,10 @@
 ## Change font AppleGothic=NanumGothic
 ## Change font AppleMyungjo=NanumMyeongjo
 ###############################################################################
+### S: 애플 산돌고딕 네오 & 나눔 명조 #########################################
+## Change font AppleGothic=AppleSDGothicNeo-Regular
+## Change font AppleMyungjo=NanumMyeongjo
+###############################################################################
 # No need to modify below this line, unless you know what you're doing.
 
 set -eu
