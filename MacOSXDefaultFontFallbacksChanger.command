@@ -4,7 +4,7 @@
 # Created: 2011-07-22
 
 ### MacOSXDefaultFontFallbacksChanger #########################################
-## Mac OS X 기본 글꼴 설정 변경 도구 – 1.1 (2012-02)
+## Mac OS X 기본 글꼴 설정 변경 도구 – 1.2 (2012-03)
 ##                    http://netj.github.com/MacOSXDefaultFontFallbacksChanger
 ###############################################################################
 
@@ -25,7 +25,8 @@
 ## Change font AppleMyungjo=Nanum Myeongjo
 ###############################################################################
 
-### S: 산돌 고딕네오 & 나눔 명조 #########################################
+### S: 산돌 고딕네오 & 나눔 명조 – 10.8+ 또는 산돌고딕네오가 설치된 경우에만 ##
+# Home: http://neo.sandoll.co.kr/
 ## Change font AppleGothic=Apple SD Gothic Neo
 ## Change font AppleMyungjo=Nanum Myeongjo
 ###############################################################################
@@ -93,7 +94,7 @@ show-warning() {
 
 # fontsets embedded in comments
 list-fontsets() {
-    sed -ne '/^### [A-Z0-9]: .* ####*$/,/^####*$/ { /^### / { s/^### //; s/ ####*$//g; p; }; }' <"$0"
+    sed -ne '/^### [A-Z0-9]: .* #*$/,/^####*$/ { /^### / { s/^### //; s/ #*$//g; p; }; }' <"$0"
 }
 fontset() {
     local key=$1
@@ -135,8 +136,6 @@ compile-fontset() {
 Plists=(
 /System/Library/Frameworks/ApplicationServices.framework/Versions/Current/Frameworks/CoreText.framework/Versions/Current/Resources/DefaultFontFallbacks.plist
 /System/Library/Frameworks/AppKit.framework/Versions/Current/Resources/NSFontFallbacks.plist
-/System/Library/Frameworks/AppKit.framework/Versions/Current/Resources/NSKnownFonts.plist
-/System/Library/Frameworks/AppKit.framework/Versions/Current/Resources/RTFFontFamilyMappings.plist
 )
 # version of this script
 
@@ -144,7 +143,7 @@ Plists=(
 IsCompatible=false
 if [ x"$ProductName" = x"Mac OS X" ]; then
     case $ProductVersion in
-        10.7|10.7.*) # Lion will probably remain compatible after minor updates
+        10.7|10.7.*|10.8|10.8.*) # Lion, Mountain Lion will probably remain compatible after minor updates
             IsCompatible=true
             ;;
         *) # unsure about other versions, display warning
