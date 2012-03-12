@@ -25,6 +25,12 @@
 ## Change font AppleMyungjo=Nanum Myeongjo
 ###############################################################################
 
+### S: 산돌 고딕네오 & 나눔 명조 #########################################
+## Change font AppleGothic=Apple SD Gothic Neo
+## Change font AppleMyungjo=Nanum Myeongjo
+###############################################################################
+
+
 ### M: Finder에선 불완전한 뫼비우스 (SK Telecom) ##############################
 # Home: http://www.tworld.co.kr/outsitens.jsp
 ## Download fonts from http://www.tworld.co.kr/html/t/download/Moebius_Regular_kor.zip
@@ -35,7 +41,7 @@
 # Change font AppleGothic=Moebius Korea Bold
 ###############################################################################
 
-### S: Finder에선 불완전한 서울남산체 & 한강체 (서울서체) #####################
+### O: Finder에선 불완전한 서울남산체 & 한강체 (서울서체) #####################
 # Home: http://design.seoul.go.kr/dscontent/designseoul.php?MenuID=490&pgID=237
 ## Download fonts from http://design.seoul.go.kr/js/boardFileDown.php?model=PolicyData&id=251&field_path=file_path&field_name=file_name1&no=1&is_crypt=false
 ## Keep zip archive at ~/.fonts/SeoulFonts/SeoulFonts_TTF.zip
