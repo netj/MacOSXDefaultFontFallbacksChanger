@@ -4,7 +4,7 @@
 # Created: 2011-07-22
 
 ### MacOSXDefaultFontFallbacksChanger #########################################
-## Mac OS X 기본 글꼴 설정 변경 도구 – 1.2 (2012-03)
+## Mac OS X 기본 글꼴 설정 변경 도구 – 1.2.1 (2012-08)
 ##                    http://netj.github.com/MacOSXDefaultFontFallbacksChanger
 ###############################################################################
 
@@ -27,7 +27,7 @@
 
 ### S: 산돌 고딕네오 & 나눔 명조 – 10.8+ 또는 산돌고딕네오가 설치된 경우에만 ##
 # Home: http://neo.sandoll.co.kr/
-## Change font AppleGothic=Apple SD Gothic Neo
+## Change font AppleGothic=AppleSDGothicNeo-Regular
 ## Change font AppleMyungjo=Nanum Myeongjo
 ###############################################################################
 
@@ -250,7 +250,9 @@ interact() {
                     sudo cp -npv "$plist" "$plist.orig"
                 fi
                 echo " $plist"
-                sudo vim +"set nobackup" "$plist" "${vimcmds[@]}" +wq
+                sudo plutil -convert xml1 "$plist"
+                sudo vim -n +"set nobackup" "$plist" "${vimcmds[@]}" +wq
+                sudo plutil -convert binary1 "$plist"
             done
             echo "$fontset"을 쓰려면 재시동하거나 응용프로그램을 다시 시작 하십시오.
             echo Now reboot or restart your apps to use "$fontset".
